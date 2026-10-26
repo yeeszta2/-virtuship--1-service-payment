@@ -1,10 +1,10 @@
 # payment-service
 
-Microservice transaksi untuk integrasi API Pembayaran pihak ketiga (Telco-Health Connect).
+Microservice transaksi untuk integrasi API Pembayaran pihak ketiga (Telco-Health Connect)
 
 ## Menjalankan di laptop
 1. `cp .env.example .env` lalu isi `PAYMENT_API_KEY` dan `WEBHOOK_SECRET` (jangan di-commit).
-2. `docker build -t payment-service:1.0 .`
+2. `docker build -t payment-service:1.0 .` (atau `docker compose up --build -d`)
 3. `docker run --rm -p 8080:8080 --env-file .env payment-service:1.0`
 4. Cek: `curl http://localhost:8080/health`
 
@@ -26,5 +26,5 @@ di cloud nilainya berasal dari secret manager.
 - `openapi.yaml` dokumentasi API (diuji agar sinkron dengan route)
 
 ## Batasan yang diketahui
-- Autentikasi pengguna (JWT) diasumsikan ditangani API Gateway; layanan ini hanya boleh menerima trafik dari gateway.
-- Database SQLite dipakai untuk contoh; ganti dengan RDBMS produksi dan sesuaikan migrasi.
+- Autentikasi pengguna (JWT) diasumsikan ditangani API Gateway; layanan ini hanya boleh menerima trafik dari gateway
+- Database SQLite dipakai untuk contoh; ganti dengan RDBMS produksi dan sesuaikan migrasi

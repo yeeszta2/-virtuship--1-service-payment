@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-# Membuat riwayat commit bertahap memakai identitas git ANDA (git config user.name / user.email).
-# Sebelum tiap commit yang menyentuh kode, jalankan ./scripts/security_scan.sh dan perbaiki temuan High/Critical.
+# Membuat riwayat commit bertahap memakai identitas git ANDA (git config user.name / user.email)
+# Sebelum tiap commit yang menyentuh kode, jalankan ./scripts/security_scan.sh dan perbaiki temuan High/Critical
 set -e
-git init -q
+git init -q -b main
 git config user.name >/dev/null || { echo "Atur dulu: git config user.name 'Nama Anda'"; exit 1; }
 
 c() { git add "${@:2}"; git commit -q -m "$1"; echo "commit: $1"; }
@@ -16,5 +16,6 @@ c "feat(api): endpoint pembayaran, webhook, idempotency, dan error handling" src
 c "build(docker): Dockerfile multi-stage, non-root, healthcheck" Dockerfile
 c "docs(api): openapi.yaml sinkron dengan route" openapi.yaml
 c "ci(security): skrip dan workflow SAST, SCA, secret, dan image scan" scripts/security_scan.sh .github/workflows/security.yml
+c "build(compose): compose.yaml untuk menjalankan lokal" compose.yaml
 c "docs: README dan panduan commit" README.md commit_steps.sh
 git log --oneline

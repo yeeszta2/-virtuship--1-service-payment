@@ -1,0 +1,17 @@
+# Menjalankan layanan lokal dari image yang sama dengan server (Docker Compose v2)
+# Pakai:  docker compose up --build -d   |   docker compose down
+services:
+  payment-service:
+    build: .
+    image: payment-service:1.0
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env            # JANGAN di-commit; di cloud diganti secret manager
+    read_only: true     # filesystem kontainer hanya-baca
+    tmpfs:
+      - /tmp            # tempat database SQLite contoh dan file sementara gunicorn
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
