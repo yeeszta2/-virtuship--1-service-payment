@@ -1,0 +1,54 @@
+openapi: 3.0.3
+info:
+  title: Payment Integration API (Telco-Health Connect)
+  version: 0.3.0
+  description: Microservice transaksi yang terhubung ke Payment Gateway pihak ketiga.
+servers:
+  - url: https://api.telco.example
+paths:
+  /health:
+    get:
+      summary: Health check layanan
+      responses:
+        '200': {description: Layanan sehat}
+  /v1/payments:
+    post:
+      summary: Membuat permintaan pembayaran ke Payment Gateway
+      parameters:
+        - {name: Idempotency-Key, in: header, required: true, schema: {type: string, maxLength: 64}}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [order_id, amount]
+              properties:
+                order_id: {type: string, maxLength: 64}
+                amount: {type: integer, minimum: 1, maximum: 100000000}
+      responses:
+        '200': {description: Transaksi dengan kunci yang sama sudah sukses}
+        '202': {description: Diterima, status PENDING menunggu konfirmasi mitra}
+        '400': {description: Permintaan tidak valid}
+        '409': {description: Idempotency-Key sama dengan isi berbeda}
+        '422': {description: Ditolak oleh mitra}
+        '503': {description: Payment Gateway tidak tersedia (timeout atau circuit breaker terbuka)}
+  /v1/payments/{payment_id}:
+    get:
+      summary: Cek status transaksi
+      parameters:
+        - {name: payment_id, in: path, required: true, schema: {type: string}}
+      responses:
+        '200': {description: Status transaksi}
+        '404': {description: Transaksi tidak ditemukan}
+  /v1/payments/webhook:
+    post:
+      summary: Penerima notifikasi status pembayaran dari mitra
+      parameters:
+        - {name: X-Signature, in: header, required: true, schema: {type: string}}
+        - {name: X-Timestamp, in: header, required: true, schema: {type: string}}
+      responses:
+        '200': {description: Notifikasi valid dan diproses}
+        '400': {description: Isi notifikasi tidak valid}
+        '401': {description: Signature tidak valid atau timestamp kedaluwarsa}
+        '404': {description: Transaksi tidak ditemukan}

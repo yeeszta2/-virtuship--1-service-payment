@@ -1,0 +1,4 @@
+PyYAML==6.0.3
+# Alat keamanan (pasang sesuai kebutuhan, versi terbaru):
+# bandit, pip-audit  -> pip install bandit pip-audit
+# gitleaks, trivy    -> pasang dari rilis resminya
