@@ -1,0 +1,30 @@
+name: security-and-tests
+on: [push, pull_request]
+jobs:
+  test-sast-sca:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.14'}
+      - run: pip install -r requirements.txt bandit pip-audit
+      - run: python -m unittest discover -s tests
+      - run: bandit -r src -ll
+      - run: pip-audit -r requirements.txt
+  secret-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: gitleaks/gitleaks-action@v2
+        env: {GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'}
+  image-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t payment-service:1.0 .
+      # Bukti konsistensi lingkungan: versi Python di dalam image sama dengan di laptop
+      - run: docker run --rm --entrypoint python payment-service:1.0 --version
+      # Verifikasi versi terbaru action ini sebelum dipakai
+      - uses: aquasecurity/trivy-action@0.28.0
+        with: {image-ref: 'payment-service:1.0', severity: 'HIGH,CRITICAL', exit-code: '1'}
