@@ -1,7 +1,7 @@
-"""Konfigurasi layanan
+"""Konfigurasi layanan.
 
 Seluruh nilai (termasuk rahasia) dibaca dari environment variable, tidak ada
-yang ditulis langsung di kode (no hardcoded secret)
+yang ditulis langsung di kode (no hardcoded secret).
 """
 import os
 from dataclasses import dataclass

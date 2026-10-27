@@ -1,4 +1,4 @@
-"""Klien untuk memanggil API Payment Gateway mitra"""
+"""Klien untuk memanggil API Payment Gateway mitra."""
 import requests
 
 from .circuit_breaker import CircuitBreaker, CircuitOpenError

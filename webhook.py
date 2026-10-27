@@ -1,4 +1,4 @@
-"""Verifikasi keaslian webhook dari mitra"""
+"""Verifikasi keaslian webhook dari mitra."""
 import hashlib
 import hmac
 import time

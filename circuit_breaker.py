@@ -1,4 +1,4 @@
-"""Circuit Breaker sederhana untuk melindungi aplikasi dari mitra yang gagal berulang"""
+"""Circuit Breaker sederhana untuk melindungi aplikasi dari mitra yang gagal berulang."""
 import threading
 import time
 

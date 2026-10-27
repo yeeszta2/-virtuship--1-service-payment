@@ -1,4 +1,4 @@
-"""Microservice transaksi: integrasi dengan Payment Gateway pihak ketiga"""
+"""Microservice transaksi: integrasi dengan Payment Gateway pihak ketiga."""
 import json
 import logging
 import re
