@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 cd "$(dirname "$0")/.." || exit 1
 mkdir -p evidence
 OUT="evidence/evidence_$(date +%Y%m%d_%H%M%S).txt"
